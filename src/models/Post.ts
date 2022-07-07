@@ -13,6 +13,7 @@ const PostSchema: Schema = new mongoose.Schema(
     },
     desc: {
       type: String,
+      required: true,
       max: 200,
     },
   },
