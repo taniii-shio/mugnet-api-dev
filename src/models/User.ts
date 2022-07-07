@@ -39,20 +39,20 @@ const UserSchema: Schema = new mongoose.Schema(
   {
     username: {
       type: String,
-      require: true,
+      required: true,
       min: 3,
       max: 25,
       unique: true,
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       max: 50,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: true,
       min: 6,
       max: 50,
     },
@@ -71,15 +71,15 @@ const UserSchema: Schema = new mongoose.Schema(
     // 基本情報
     name: {
       type: String,
-      require: true,
+      required: true,
     },
     desc: {
       type: String,
-      require: true,
+      required: true,
     },
     profilePicture: {
       type: String,
-      require: true,
+      required: true,
     },
     coverPicture: {
       type: String,
