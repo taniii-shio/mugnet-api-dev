@@ -49,4 +49,66 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// ユーザーのいいね　動作未確認
+router.put("/:id/like", async (req: Request, res: Response) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      // メモ：型要検討
+      const user: any = await User.findById(req.params.id);
+      const currentUser: any = await User.findById(req.body.userId);
+      if (!user.liked.includes(req.body.userId)) {
+        await user.updateOne({
+          $push: {
+            liked: req.body.userId,
+          },
+        });
+        await currentUser.updateOne({
+          $push: {
+            likes: req.params.id,
+          },
+        });
+        return res.status(200).json("いいねに成功しました");
+      } else {
+        return res
+          .status(403)
+          .json("あなたは既にこのユーザーをいいねしています");
+      }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(500).json("自分自身をいいねできません");
+  }
+});
+
+// ユーザーのいいね解除　動作未確認
+router.put("/:id/unlike", async (req: Request, res: Response) => {
+  if (req.body.userId !== req.params.id) {
+    try {
+      // メモ：型要検討
+      const user: any = await User.findById(req.params.id);
+      const currentUser: any = await User.findById(req.body.userId);
+      if (user.liked.includes(req.body.userId)) {
+        await user.updateOne({
+          $pull: {
+            liked: req.body.userId,
+          },
+        });
+        await currentUser.updateOne({
+          $pull: {
+            likes: req.params.id,
+          },
+        });
+        return res.status(200).json("いいね解除に成功しました");
+      } else {
+        return res.status(403).json("このユーザーはいいね解除できません");
+      }
+    } catch (err) {
+      return res.status(500).json(err);
+    }
+  } else {
+    return res.status(500).json("自分自身をいいね解除できません");
+  }
+});
+
 export default router;
