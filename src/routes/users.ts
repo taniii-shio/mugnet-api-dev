@@ -49,7 +49,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// ユーザーのいいね　動作未確認
+// ユーザーのいいね
 router.put("/:id/like", async (req: Request, res: Response) => {
   if (req.body.userId !== req.params.id) {
     try {
@@ -81,7 +81,7 @@ router.put("/:id/like", async (req: Request, res: Response) => {
   }
 });
 
-// ユーザーのいいね解除　動作未確認
+// ユーザーのいいね解除
 router.put("/:id/unlike", async (req: Request, res: Response) => {
   if (req.body.userId !== req.params.id) {
     try {
