@@ -6,12 +6,8 @@ const router = express.Router();
 
 // ユーザー新規登録
 router.post("/register", async (req: Request, res: Response) => {
+  const newUser = new User(req.body);
   try {
-    const newUser = await new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
     const user = await newUser.save();
     return res.status(200).json(user);
   } catch (err) {
