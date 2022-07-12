@@ -5,8 +5,8 @@ export interface IUser extends Document {
   email: string;
   password: string;
   isAdmin: boolean;
-  likes: Array<String>;
-  liked: Array<String>;
+  likes: string[];
+  liked: string[];
   // 基本情報
   name: string;
   desc: string;
