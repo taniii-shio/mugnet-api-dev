@@ -59,4 +59,20 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// 投稿にいいねする機能
+router.put("/:id/likePost", async (req: Request, res: Response) => {
+  try {
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+// 投稿のいいねを解除する機能
+router.put("/:id/unlikePost", async (req: Request, res: Response) => {
+  try {
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 export default router;
