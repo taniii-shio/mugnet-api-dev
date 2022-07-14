@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import authRoute from "./routes/auth";
 import userRoute from "./routes/users";
 import postRoute from "./routes/posts";
+import threadRoute from "./routes/threads";
+import commentRoute from "./routes/comments";
 
 const app = express();
 dotenv.config();
@@ -28,6 +30,8 @@ app.use(express.json());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/threads", threadRoute);
+app.use("/api/comments", commentRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello express");
