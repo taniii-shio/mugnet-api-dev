@@ -25,6 +25,8 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// 特定の投稿に紐付くスレッドの取得
+
 // スレッドの削除
 router.delete("/:id", async (req: Request, res: Response) => {
   try {

@@ -25,6 +25,8 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
+// 特定のスレッドに紐付くコメントの取得
+
 // コメントの削除
 router.delete("/:id", async (req: Request, res: Response) => {
   try {
