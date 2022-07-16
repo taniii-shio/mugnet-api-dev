@@ -59,17 +59,25 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// 投稿にいいねする機能
+// 特定の投稿へのいいね、いいね解除 型要検討
 router.put("/:id/likePost", async (req: Request, res: Response) => {
   try {
-  } catch (err) {
-    return res.status(500).json(err);
-  }
-});
-
-// 投稿のいいねを解除する機能
-router.put("/:id/unlikePost", async (req: Request, res: Response) => {
-  try {
+    const post: any = await Post.findById(req.params.id);
+    if (!post.likes.includes(req.body.userId)) {
+      await post.updateOne({
+        $push: {
+          likes: req.body.userId,
+        },
+      });
+      return res.status(200).json("投稿のいいねに成功しました");
+    } else {
+      await post.updateOne({
+        $pull: {
+          likes: req.body.userId,
+        },
+      });
+      return res.status(200).json("投稿のいいねを解除しました");
+    }
   } catch (err) {
     return res.status(500).json(err);
   }
