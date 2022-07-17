@@ -15,7 +15,7 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-// 投稿の取得
+// 特定の投稿の取得
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -24,6 +24,8 @@ router.get("/:id", async (req: Request, res: Response) => {
     return res.status(500).json(err);
   }
 });
+
+// 全ての投稿を取得
 
 // 投稿の更新
 router.put("/:id", async (req: Request, res: Response) => {
