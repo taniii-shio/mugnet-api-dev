@@ -26,6 +26,14 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 // 全ての投稿を取得
+router.get("/timeline/all", async (req: Request, res: Response) => {
+  try {
+    const allPosts = await Post.find();
+    return res.status(200).json(allPosts);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
 // 投稿の更新
 router.put("/:id", async (req: Request, res: Response) => {
