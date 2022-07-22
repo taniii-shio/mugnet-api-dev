@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
 import Post from "../models/Post";
+import User from "../models/User";
 
 const router = express.Router();
 
@@ -10,6 +11,16 @@ router.post("/", async (req: Request, res: Response) => {
   try {
     const savedPost = await newPost.save();
     return res.status(200).json(savedPost);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+// 全ての投稿を取得
+router.get("/timeline/all", async (req: Request, res: Response) => {
+  try {
+    const allPosts = await Post.find();
+    return res.status(200).json(allPosts);
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -25,11 +36,12 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// 全ての投稿を取得
-router.get("/timeline/all", async (req: Request, res: Response) => {
+// 特定のユーザーに紐付く投稿の取得
+router.get("/byuser/all", async (req: Request, res: Response) => {
   try {
-    const allPosts = await Post.find();
-    return res.status(200).json(allPosts);
+    const currentUser: any = await User.findById(req.body.userId);
+    const currentUserPost = await Post.find({ userId: currentUser._id });
+    return res.status(200).json(currentUserPost);
   } catch (err) {
     return res.status(500).json(err);
   }

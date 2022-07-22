@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 
 import Comment from "../models/Comment";
+import Thread from "../models/Thread";
 
 const router = express.Router();
 
@@ -26,6 +27,17 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 // 特定のスレッドに紐付くコメントの取得
+router.get("/bythread/all", async (req: Request, res: Response) => {
+  try {
+    const currentThread: any = await Thread.findById(req.body.threadId);
+    const currentThreadCommnt = await Comment.find({
+      threadId: currentThread._id,
+    });
+    return res.status(200).json(currentThreadCommnt);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
 
 // コメントの削除
 router.delete("/:id", async (req: Request, res: Response) => {
