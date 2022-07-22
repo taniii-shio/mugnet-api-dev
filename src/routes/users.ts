@@ -4,12 +4,28 @@ import User from "../models/User";
 
 const router = express.Router();
 
-// ユーザー情報の取得
+// 特定のユーザー情報の取得
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const user: any = await User.findById(req.params.id);
     const { password, ...other } = user._doc;
     return res.status(200).json(other);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+// 全ユーザー情報の取得(初期のレコメンドユーザー)
+router.get("/recommend/all", async (req: Request, res: Response) => {
+  try {
+    const allUsers = await User.find();
+    const allUsersData = await Promise.all(
+      allUsers.map((user: any) => {
+        const { password, ...other } = user._doc;
+        return other;
+      })
+    );
+    return res.status(200).json(allUsersData);
   } catch (err) {
     return res.status(500).json(err);
   }
