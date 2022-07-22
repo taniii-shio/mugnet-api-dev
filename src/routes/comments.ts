@@ -31,7 +31,7 @@ router.get("/bythread/all", async (req: Request, res: Response) => {
   try {
     const currentThread: any = await Thread.findById(req.body.threadId);
     const currentThreadCommnt = await Comment.find({
-      postId: currentThread._id,
+      threadId: currentThread._id,
     });
     return res.status(200).json(currentThreadCommnt);
   } catch (err) {
