@@ -10,7 +10,7 @@ export interface IUser extends Document {
   // 基本情報
   name: string;
   desc: string;
-  profilePicture: string;
+  profilePicture: Number;
   coverPicture: string;
   schoolYear: Number;
   faculty: string;
@@ -78,7 +78,7 @@ const UserSchema: Schema = new mongoose.Schema(
       required: true,
     },
     profilePicture: {
-      type: String,
+      type: Number,
       required: true,
     },
     coverPicture: {
