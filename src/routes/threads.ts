@@ -27,9 +27,9 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 // 特定の投稿に紐付くスレッドの取得
-router.get("/bypost/all", async (req: Request, res: Response) => {
+router.get("/bypost/:id", async (req: Request, res: Response) => {
   try {
-    const currentPost: any = await Post.findById(req.body.postId);
+    const currentPost: any = await Post.findById(req.params.id);
     const currentPostThread = await Thread.find({ postId: currentPost._id });
     return res.status(200).json(currentPostThread);
   } catch (err) {
