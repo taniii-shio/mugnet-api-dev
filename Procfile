@@ -1,1 +1,1 @@
-web: nodemon --exec ts-node src/server.ts
+web: node ./dist/server.js
