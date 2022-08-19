@@ -1,1 +1,1 @@
-node ./bin/www
+node ./dist/server.js
