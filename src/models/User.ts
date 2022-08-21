@@ -39,7 +39,6 @@ const UserSchema: Schema = new mongoose.Schema(
   {
     username: {
       type: String,
-      // required: true,
       default: "",
       min: 3,
       max: 25,
@@ -72,17 +71,14 @@ const UserSchema: Schema = new mongoose.Schema(
     // 基本情報
     name: {
       type: String,
-      // required: true,
       default: "",
     },
     desc: {
       type: String,
-      // required: true,
       default: "",
     },
     profilePicture: {
       type: Number,
-      // required: true,
       default: "",
     },
     coverPicture: {
