@@ -7,6 +7,7 @@ import userRoute from "./routes/users";
 import postRoute from "./routes/posts";
 import threadRoute from "./routes/threads";
 import commentRoute from "./routes/comments";
+import uploadRoute from "./routes/upload";
 
 const app = express();
 dotenv.config();
@@ -32,6 +33,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/threads", threadRoute);
 app.use("/api/comments", commentRoute);
+app.use("/api/upload", uploadRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("hello express");
