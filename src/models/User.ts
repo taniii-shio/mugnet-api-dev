@@ -7,31 +7,11 @@ export interface IUser extends Document {
   likes: string[];
   liked: string[];
   // 基本情報
+  username: string;
   name: string;
-  desc: string;
-  profilePicture: Number;
-  coverPicture: string;
-  schoolYear: Number;
-  faculty: string;
-  sex: string;
-  // コアプロフィール
-  bloodType: Number;
-  birthDay: Number;
-  birthPlace: Number;
-  affiliation: string;
-  // 価値観
-  hobby: String;
-  behavioralPreferences: Number;
-  specialSkill: String;
-  favoriteMusic: String;
-  favoriteBook: String;
-  favoriteMovie: String;
-  favoriteYoutuber: String;
-  favoriteEntertainer: String;
-  likePlace: String;
-  likeRestaurant: String;
-  wantToDo: String;
-  recentChallenges: String;
+  profilePicture: string;
+  instagramUrl: string;
+  circle: string;
 }
 
 const UserSchema: Schema = new mongoose.Schema(
@@ -61,97 +41,24 @@ const UserSchema: Schema = new mongoose.Schema(
       default: [],
     },
     // 基本情報
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       default: "",
     },
-    desc: {
-      type: String,
-      default: "",
-    },
     profilePicture: {
-      type: Number,
-      default: "",
-    },
-    coverPicture: {
       type: String,
       default: "",
     },
-    schoolYear: {
-      type: Number,
-      default: 0,
-    },
-    faculty: {
+    instagramUrl: {
       type: String,
       default: "",
     },
-    sex: {
-      type: String,
-      default: "0",
-    },
-    // コアプロフィール
-    bloodType: {
-      type: Number,
-      deafult: 0,
-    },
-    birthDay: {
-      type: Number,
-      deafult: 0,
-    },
-    birthPlace: {
-      type: Number,
-      deafult: 0,
-    },
-    affiliation: {
-      type: String,
-      default: "",
-    },
-    // 価値観
-    hobby: {
-      type: String,
-      default: "",
-    },
-    behavioralPreferences: {
-      type: Number,
-      default: 0,
-    },
-    specialSkill: {
-      type: String,
-      default: "",
-    },
-    favoriteMusic: {
-      type: String,
-      default: "",
-    },
-    favoriteBook: {
-      type: String,
-      default: "",
-    },
-    favoriteMovie: {
-      type: String,
-      default: "",
-    },
-    favoriteYoutuber: {
-      type: String,
-      default: "",
-    },
-    favoriteEntertainer: {
-      type: String,
-      default: "",
-    },
-    likePlace: {
-      type: String,
-      default: "",
-    },
-    likeRestaurant: {
-      type: String,
-      default: "",
-    },
-    wantToDo: {
-      type: String,
-      default: "",
-    },
-    recentChallenges: {
+    circle: {
       type: String,
       default: "",
     },
