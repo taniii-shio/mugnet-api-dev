@@ -1,7 +1,7 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
 const aws = require("aws-sdk");
-const multer = require("multer");
-const multerS3 = require("multer-s3");
+const base64 = require("urlsafe-base64");
 
 const router = express.Router();
 
@@ -11,49 +11,33 @@ const s3 = new aws.S3({
   region: process.env.S3_BUCKET_REGION,
 });
 
-const upload = (bucketName: string) =>
-  multer({
-    storage: multerS3({
-      s3,
-      bucket: bucketName,
-      metadata: (req: any, file: any, cb: any) => {
-        cb(null, { fieldname: file.fieldname });
-      },
-      key: (req: any, file: any, cb: any) => {
-        cb(null, Date.now() + file.originalname);
-      },
-    }),
-  });
-
-const uploadSingle = upload("mugnet-api-dev").single("file");
-
-// 画像アップロード用のAPI
-router.post("/", (req: any, res: Response, next: any) => {
-  uploadSingle(req, res, (err: any) => {
-    if (err) {
-      console.log("errors", err);
-      res.json({ error: err });
-    } else {
-      if (req.file === undefined) {
-        console.log("Error: No File Selected!");
-        res.json("Error: No File Selected");
-      } else {
-        // If Success
-        const imageName = req.file.key;
-        const imageLocation = req.file.location;
-        // Save the file name into database into profile model
-        res.json({
-          image: imageName,
-          location: imageLocation,
-        });
+// 画像upload
+router.post("/base64", (req, res) => {
+  const base64_data = req.body.base64_data;
+  const decode_data = base64.decode(
+    base64_data.replace("data:image/png;base64,", "")
+  );
+  const imageId = uuidv4();
+  const params = {
+    Bucket: "mugnet-api-dev",
+    ACL: "public-read",
+    ContentType: "image/png" || "image/jpeg",
+    Key: imageId,
+    Body: decode_data,
+  };
+  try {
+    s3.putObject(params, (err: any, data: any) => {
+      if (err) {
+        console.log("失敗");
+        return;
       }
-    }
-  });
-  // try {
-  //   return res.status(200).json("画像アップロードに成功しました。");
-  // } catch (err) {
-  //   console.log(err);
-  // }
+      return res.status(200).json({
+        imageUrl: `https://mugnet-api-dev.s3.ap-northeast-1.amazonaws.com/${imageId}`,
+      });
+    });
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 });
 
 export default router;
