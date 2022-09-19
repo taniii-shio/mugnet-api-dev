@@ -12,7 +12,7 @@ const s3 = new aws.S3({
 });
 
 // 画像upload
-router.post("/base64", (req, res) => {
+router.post("/", (req, res) => {
   const base64_data = req.body.base64_data;
   const decode_data = base64.decode(
     base64_data.replace("data:image/png;base64,", "")
