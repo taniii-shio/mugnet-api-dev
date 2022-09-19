@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import * as bodyParser from "body-parser";
 
 import authRoute from "./routes/auth";
 import userRoute from "./routes/users";
@@ -27,7 +28,7 @@ mongoose
   });
 
 // ミドルウェア
-app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
