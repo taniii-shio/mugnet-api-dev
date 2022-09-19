@@ -1,24 +1,42 @@
-import express, { Request, Response } from "express";
-const multer = require("multer");
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
+const aws = require("aws-sdk");
+const base64 = require("urlsafe-base64");
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: "no destination",
-  // (req: any, res: any, cb: any) => {
-  //   cb(null, "/public/images");
-  // },
-  filename: (req: any, file: any, cb: any) => {
-    cb(null, file.originalname);
-  },
+const s3 = new aws.S3({
+  accessKeyId: process.env.S3_ACCESS_KEY,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: process.env.S3_BUCKET_REGION,
 });
-const upload = multer({ storage });
-// 画像アップロード用のAPI
-router.post("/", upload.single("file"), (req: Request, res: Response) => {
+
+// 画像upload
+router.post("/base64", (req, res) => {
+  const base64_data = req.body.base64_data;
+  const decode_data = base64.decode(
+    base64_data.replace("data:image/png;base64,", "")
+  );
+  const imageId = uuidv4();
+  const params = {
+    Bucket: "mugnet-api-dev",
+    ACL: "public-read",
+    ContentType: "image/png" || "image/jpeg",
+    Key: imageId,
+    Body: decode_data,
+  };
   try {
-    return res.status(200).json("画像アップロードに成功しました。");
+    s3.putObject(params, (err: any, data: any) => {
+      if (err) {
+        console.log("失敗");
+        return;
+      }
+      return res.status(200).json({
+        imageUrl: `https://mugnet-api-dev.s3.ap-northeast-1.amazonaws.com/${imageId}`,
+      });
+    });
   } catch (err) {
-    console.log(err);
+    return res.status(500).json(err);
   }
 });
 
