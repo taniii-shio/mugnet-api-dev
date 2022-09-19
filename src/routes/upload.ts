@@ -14,15 +14,12 @@ const s3 = new aws.S3({
 // 画像upload
 router.post("/", (req, res) => {
   const base64_data = req.body.base64_data;
-  // const decode_data = base64.decode(
-  //   base64_data.replace("data:image/png;base64,", "")
-  // );
   const decode_data = base64.decode(base64_data);
   const imageId = uuidv4();
   const params = {
     Bucket: "mugnet-api-dev",
     ACL: "public-read",
-    ContentType: "image/png" || "image/jpeg",
+    ContentType: "image/png",
     Key: imageId,
     Body: decode_data,
   };
