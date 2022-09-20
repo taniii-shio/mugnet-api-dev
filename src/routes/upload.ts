@@ -30,7 +30,7 @@ router.post("/", (req, res) => {
         return;
       }
       return res.status(200).json({
-        imageUrl: `https://mugnet-api-dev.s3.ap-northeast-1.amazonaws.com/${imageId}`,
+        imageUrl: `https://d66zd1akme4e.cloudfront.net/${imageId}.png`,
       });
     });
   } catch (err) {
